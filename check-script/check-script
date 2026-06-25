@@ -1,0 +1,25 @@
+#!/bin/bash
+
+URL=$1
+INTERVALO=$2
+ARCHIVO="salida.txt"
+
+if [ -n "$URL" ]; then
+    while true; do
+        echo "=== $(date) ===" | tee -a "$ARCHIVO"
+        curl -s "$URL" | tee -a "$ARCHIVO"
+        echo -e "\n" | tee -a "$ARCHIVO"
+        if [ -n "$INTERVALO" ]; then
+           sleep "$INTERVALO" 
+        else
+            sleep 1
+        fi
+    done
+else
+    echo "Url necesaria para la ejecucion del script, agreguela despues de llamar el script"
+    echo ""
+    echo "-ESTRUCTURA-"
+    echo ""
+    echo "./check-script <url> <intervalo de tiempo entre llamdas (opcional)>"
+fi
+

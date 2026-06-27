@@ -1,0 +1,7 @@
+services:
+  bluegreen-api:
+    build: .
+    restart: unless-stopped
+    container_name: bluegreen-api
+    ports:
+      - 127.0.0.1:9999:8080

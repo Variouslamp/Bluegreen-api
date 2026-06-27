@@ -2,7 +2,7 @@
 
 FROM rust:1.96 AS builder
 WORKDIR /app
-COPY /api-code/ .
+COPY . .
 RUN cargo build --release
 
 # --- Etapa 2: Ejecución ---

@@ -1,21 +1,46 @@
 #!/bin/bash
 
-URL=$1
-INTERVALO=$2
-ARCHIVO="salida.txt"
+URL=$1 # Url recibida para hacer llamadas, como argumento #1 
+INTERVALO=$2 # Intervalo de tiempo en los que se hara un get a la url 
+ARCHIVO="salida.txt" # Archivo en el cual se almacenaran las salidas
 
-if [ -n "$URL" ]; then
+# ---------------------------------------------------------------------------------
+
+if [ -n "$URL" ]; then # El bloque se ejecuta cuando se ingreso una url para llamar
+    
+    if [ -z "$INTERVALO" ]; then
+        echo "========================================================================"
+        echo "AVISO: No se ingreo un intervalo se usa 1s entre llamada por default"
+        echo "========================================================================"
+    fi
+
+    # Bucle de llamadas mientra se ejecuta el script
     while true; do
         echo "=== $(date) ===" | tee -a "$ARCHIVO"
-        curl -s "$URL" | tee -a "$ARCHIVO"
+        respuesta=$(curl -s "$URL")
+
+        # verificacion si curl recibe informacion
+        if [ -z "$respuesta" ]; then 
+            echo "ERROR: El servidor no existe o no se pudo establecer conexion" \
+                | tee -a "$ARCHIVO"
+            exit 1
+        fi
+        
+        # Impresion de la respuesta recibida por el curl
+        echo "$respuesta"
+        echo "$respuesta" >> "$ARCHIVO"
         echo -e "\n" | tee -a "$ARCHIVO"
+
+        # Bloque de intervalo entre llamdas
         if [ -n "$INTERVALO" ]; then
            sleep "$INTERVALO" 
         else
             sleep 1
         fi
+
     done
 else
+    # Impresion de avisos si una url no es ingresada en el script
     echo "Url necesaria para la ejecucion del script, agreguela despues de llamar el script"
     echo ""
     echo "-ESTRUCTURA-"

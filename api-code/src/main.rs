@@ -3,7 +3,7 @@ use serde::Serialize; //
 use chrono::{Utc, FixedOffset}; // Libreria encargada de la creacion y uso de timestamp
 
 
-const VERSION: &str = "V1.0";
+const VERSION: &str = "V2.0";
 
 // 1. Definimos la estructura del JSON que queremos responder
 #[derive(Serialize)]
